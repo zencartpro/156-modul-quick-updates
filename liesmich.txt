@@ -1,0 +1,71 @@
+Quick Updates 2.1.0
+für Zen Cart 1.5.6 deutsch
+
+========================================================
+
+Was macht diese Erweiterung?
+
+Quick Updates ist eine administrative Komponente für Zen Cart.
+Es ermöglicht Ihnen die Bearbeitung und Aktualisierung von mehreren Artikeln gleichzeitig.
+
+Features: 
+- Listet Artikelmerkmale und Preise in einer Tabelle auf, dadurch können Sie viele Artikel auf einmal bearbeiten.
+- Filtern Sie Ihre zu bearbeitenden Artikel nach Herstellern und/oder Kategorien.
+- Genereller Preisaufschlag (Fixbetrag oder Prozentwert) für alle Artikel, bestimmte Artikel oder Kategorien. Inkl. einer Vorschau, damit Sie ihre Änderungen prüfen können.
+- Adminbereich um die zu bearbeiteten Artikelmerkmale ein- oder auszublenden
+- Ermöglicht Ihnen das schnellere Kopieren einzelner Artikel
+
+
+========================================================
+
+INSTALLATION:
+
+Es werden keine Dateien überschrieben.
+Allerdings wird die Datenbank verändert, daher sollten Sie VOR DER INSTALLATION ein Datenbankbackup durchführen!
+
+1. 
+Benennen Sie den Ordner DEINADMIN auf den Namen Ihres Adminverzeichnisses um. Und laden Sie ihn dann in Ihr Shopverzeichnis hoch.
+Dadurch werden keine bestehenden Dateien überschrieben
+
+2. 
+Klicken Sie nun im Adminbereich auf irgendeinen Menüpunkt, dadurch ist nun unter Webshop ein neuer Menüpunkt Quick Updates vorhanden.
+
+3.
+Gehen Sie auf Webshop > Quick Updates
+Oben auf der Seite erscheint
+Quick Updates Konfiguration ist noch nicht installiert. Bitte installieren Sie die Konfiguration und clicken Sie auf Install
+Clicken Sie auf Install
+
+4.
+Unter Konfiguration ist jetzt ein neuer Menüpunkt Quick Updates vorhanden.
+
+Hier haben Sie nun diverse Einstellmöglichkeiten.
+
+Quick Updates finden Sie unter Webshop --> Quick Updates.
+
+
+Hinweis:
+Unter PHP 7.3 wird ein Debug Log mit einer harmlosen PHP Warning erzeugt werden, solange die Quick Updates Konfiguration noch nicht installiert wurde.
+Dieses Log kann gelöscht und ignoriert werden, es wird nach Installation der Konfiguration nicht mehr auftreten.
+ 
+=========================================================
+
+Anmerkungen:
+
+1) Werfen Sie auch einen Blick in admin/includes/extra_configures/quick_updates.php, manche Einstellung ist nun dorthin verschoben oder hinzugefügt worden 
+
+
+2) Um die Funktionen "products_purchase_price" und "products_margin" nutzen zu können, müssen diese in Ihrer Artikeltabelle in der Datenbank (Table products) hinzugefügt werden. 
+   Um diese Funktion zu aktivieren, einfach in der admin/includes/extra_configures/quick_updates.php in Zeile 10 define('QUICKUPDATES_MODIFY_PURCHASE_AND_MARGIN', 'true'); setzen.
+   Danach bitte unter Tools --> SQL Patches installieren folgendes einfügen:
+   
+   ALTER TABLE `products` ADD `products_purchase_price` DECIMAL( 15, 4 ) NOT NULL DEFAULT '0.0000' AFTER `products_price` ,
+   ADD `products_margin` DECIMAL( 15, 2 ) NOT NULL DEFAULT '0.00' AFTER `products_purchase_price`; 
+   
+3) Im Code hat paulm(der holländische (Mit-)Schaffer der englischen Originalversion für diese Übersetzung) eine Möglichkeit eingebaut, eine zusätzliche Zeile für z.B. für die Lieferanten-Artikelnummer eingebaut. 
+   Um diese Funktion zu aktivieren, einfach in der admin/includes/extra_configures/quick_updates.php in Zeile 28  define('QUICKUPDATES_MODIFY_NEW_COLUMN_1', 'true'); setzen.
+   Danach bitte unter Tools --> SQL Patches installieren folgendes einfügen:
+   
+   ALTER TABLE `products` ADD `products_artlid` VARCHAR(32) DEFAULT 'NULL' AFTER `products_model`;  
+   
+Die unter 3 und 4 zusätzlich eingefügten Felder für Quickupdates, sind rein kosmetischer Natur. Sie können diese Felder nur in Quick Updates nutzen. Sie tauchen weder in E-Mails noch in Auswertungen auf.
