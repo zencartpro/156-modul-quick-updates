@@ -1,6 +1,10 @@
 # quick-updates
 Quick Updates für Zen Cart 1.5.6 deutsch
 
+Hinweis: 
+Freigegebene getestete Versionen für den Einsatz in Livesystemen ausschließlich unter Releases herunterladen:
+https://github.com/zencartpro/156-modul-quick-updates/releases
+
 Quick Updates ist eine administrative Komponente für Zen Cart.
 Es ermöglicht Ihnen die Bearbeitung und Aktualisierung von mehreren Artikeln gleichzeitig.
 
