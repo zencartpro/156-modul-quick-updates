@@ -3,10 +3,10 @@
  * @package Quick Updates
  * @copyright Portions Copyright 2006 Paul Mathot http://www.beterelektro.nl/zen-cart
  * @copyright Copyright 2006 Andrew Berezin andrew@eCommerce-service.com
- * @copyright Copyright 2003-2019 Zen Cart Development Team
+ * @copyright Copyright 2003-2021 Zen Cart Development Team
  * @copyright Portions Copyright 2003 osCommerce
  * @license https://www.zen-cart-pro.at/license/3_0.txt GNU General Public License V3.0
- * @version $Id: quick_updates.php 2019-10-15 09:35:04 webchills $
+ * @version $Id: quick_updates.php 2021-06-26 10:57:04 webchills $
  */
 require('includes/application_top.php');
 
@@ -38,13 +38,18 @@ if ($_GET['qu_installer'] == 'remove') {
 
 $export_products = array();
 
-// ? without this line the taxprice will be rounded to 0 decimals
+// without these lines the taxprice will be rounded to 0 decimals
+// extended to avoid php 7.4 log error notices
+require DIR_WS_CLASSES . 'currencies.php';
+if (!isset($currencies)) 
+$currencies = new currencies();
 $currencies->currencies[DEFAULT_CURRENCY]['decimal_places'] = 4;
 
 define('QUICKUPDATES_DISPLAY_TVA_PRICES', QUICKUPDATES_DISPLAY_TVA_OVER);
 
 // bof functions
-function zen_quickupdates_table_head($sort_field, $head_text, $cols=1) {
+function zen_quickupdates_table_head($sort_field, $head_text, $cols=1): string
+{
   $str = '';
   $str .= '<td class="dataTableHeadingContent" align="center" valign="middle"' . ($cols > 1 ? ' colspan="' . $cols . '"' : '') . '>';
   if($sort_field != '') {
@@ -206,8 +211,8 @@ switch ($_GET['action']) {
     // eof prepare al new data for database input
 
     $quick_updates_count = array();
-    if($_POST['quick_updates_new']['products_model']){;
-      foreach($_POST['quick_updates_new']['products_model'] as $products_id => $new_value) {
+    if($_POST['quick_updates_new']['products_model']){
+        foreach($_POST['quick_updates_new']['products_model'] as $products_id => $new_value) {
         if (trim($_POST['quick_updates_new']['products_model'][$products_id]) != trim($_POST['quick_updates_old']['products_model'][$products_id])) {
           $quick_updates_count['products_model'][$products_id] = $products_id;
           $db->Execute("UPDATE " . TABLE_PRODUCTS . " SET products_model='" . zen_db_input($new_value) . "', products_last_modified=NOW() WHERE products_id=" . (int)$products_id);
@@ -568,7 +573,7 @@ if($image_sql != '') {
               echo zen_draw_hidden_field('quick_updates_copy', 1) . "\n";
               echo zen_draw_hidden_field('quick_copy_number', $_SESSION['quick_updates']['quick_copy_number']) . "\n";
               echo zen_image_submit('button_copy.gif', BUTTON_TEXT_QUICK_COPY) . "\n";
-              echo '</form>' . "\n"; ;
+              echo '</form>' . "\n";
             }
             // eof show quick copy repeat button
             ?>
